@@ -42,6 +42,9 @@
 
 
     <form  id="register" >
+        <ol class="reg_error">
+
+        </ol>
         <p>
             <label for="username">账号：</label>
             <input type="text" name="username" class="text" id="username" placeholder="昵称，不小于两位！">

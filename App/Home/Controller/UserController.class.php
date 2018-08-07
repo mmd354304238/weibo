@@ -26,4 +26,25 @@ class UserController extends Controller
             $this->error('非法访问');
         }
     }
+
+
+    public function checkUserName (){
+        if (IS_AJAX) {
+            $User = D('User');
+            $uid = $User->checkField(I('post.username'), 'username');
+            echo $uid > 0 ? 'true' : 'false';
+        }
+
+    }
+
+
+
+
+
+
+
+
+
+
+
 }
