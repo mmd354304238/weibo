@@ -18,15 +18,29 @@ class UserModel extends Model
           array('create','time',self::MODEL_INSERT,'function'),
       );
 
-      public function register($username,$password,$email){
+
+      protected $_validate = array(
+          array('username','2,20',-1,self::EXISTS_VALIDATE,'length'),
+          array('password','6,30',-2,self::EXISTS_VALIDATE,'length'),
+          array('repassword','password',-3,self::EXISTS_VALIDATE,'confirm'),
+          array('email','email',-4,self::EXISTS_VALIDATE),
+          array('username','',-5,self::EXISTS_VALIDATE,'unique'),
+          array('email','',-6,self::EXISTS_VALIDATE,'unique'),
+      );
+
+
+      public function register($username,$password,$email,$repassword){
           $data = array(
               'username'=>$username,
               'password'=>$password,
               'email'=>$email,
+              'repassword'=>$repassword,
           );
           if ($this->create($data)){
               $uid = $this->add();
               return $uid ? $uid : 0;
+          }else {
+              return $this->getError();
           }
       }
 }

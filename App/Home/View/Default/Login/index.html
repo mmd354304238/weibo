@@ -41,7 +41,7 @@
 
 
 
-    <form  id="register">
+    <form  id="register" >
         <p>
             <label for="username">账号：</label>
             <input type="text" name="username" class="text" id="username" placeholder="昵称，不小于两位！">
@@ -50,6 +50,11 @@
         <p>
             <label for="password">密码：</label>
             <input type="password" name="password" class="text" id="password" placeholder="密码，不小于6位！">
+            <span class="star">*</span>
+        </p>
+        <p>
+            <label for="repassword">密码：</label>
+            <input type="password" name="repassword" class="text" id="repassword" placeholder="再次输入密码！">
             <span class="star">*</span>
         </p>
         <p>

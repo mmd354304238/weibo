@@ -10,7 +10,7 @@ $(function () {
 
     $('#register').dialog({
         width : 430,
-        height : 330,
+        height : 360,
         title : '注册新用户',
         modal : true,
         resizable : false,
@@ -35,21 +35,7 @@ $(function () {
     });
 
 
-   // $('#register').dialog({
-   //     buttons : [{
-   //        text : '提交',
-   //        click : function (e) {
-   //            $(this).submit();
-   //        }
-   //     }],
-   // }).validate({
-   //     submitHandler : function (form) {
-   //         $(form).ajaxSubmit({
-   //             url : ThinkPHP['MODULE']+'/User/register',
-   //             type:'POST',
-   //         })
-   //     }
-   // });
+
 
 
    $('#reg_link').click(function () {
