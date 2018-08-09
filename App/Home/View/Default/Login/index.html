@@ -67,6 +67,8 @@
         </p>
     </form>
 
+<div id="loading">数据提交中...</div>
+
 
 
 </body>

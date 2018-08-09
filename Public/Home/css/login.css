@@ -159,3 +159,39 @@ body {
 	width:28px;
 	background:url(../img/success.gif) no-repeat bottom;
 }
+
+#register .loading {
+	display:inline-block;
+	width:28px;
+	background:url(../img/loading_form.gif) no-repeat left 70%;
+}
+#loading {
+	background: url(../img/loading.gif) no-repeat 20px center;
+	line-height: 22px;
+	font-size: 14px;
+	font-weight: bold;
+	text-indent: 40px;
+	color: #00ee00;
+}
+
+
+.ui-dialog {
+	overflow:visible;
+}
+/*自动补全的 CSS 修改*/
+   .ui-menu-item {
+	   padding:0 !important;
+	   width:100% !important;
+   }
+.ui-menu-item a {
+	width:100% !important;
+	height:30px !important;
+	text-indent:5px !important;
+	line-height:30px !important;
+	display:inline-block !important;
+	color:#666 !important;
+}
+.ui-menu-item a.ui-state-focus {
+	color:#036 !important;
+	background:url(../img/menu_bg.png) !important;
+}
