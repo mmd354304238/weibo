@@ -26,30 +26,10 @@ $(function () {
         }],
     }).validate({
         submitHandler: function (form) {
-            $(form).ajaxSubmit({
-                url: model,
-                type: 'post',
-                beforeSubmit: function () {
-                    $('#loading').dialog('open');
-                    $('#register').dialog('widget').find('button').eq(1).button('disable');
-                },
-                success : function (responseText, statusText) {
-                    if (responseText) {
-                        $('#register').dialog('widget').find('button')
-                            .eq(1).button('enable');
-                        $('#loading').css('background', 'url(' + ThinkPHP['IMG']
-                            + '/success.gif) no-repeat 20px center').html('数据新增成功...');
-                        setTimeout(function () {
-                            $('#loading').dialog('close');
-                            $('#register').dialog('close');
-                            $('#register').resetForm();
-                            $('#register span.star')
-                                .html('*').removeClass('succ');
-                            $('#loading').css('background', 'url(' + ThinkPHP['IMG']
-                                + '/loading.gif) no-repeat 20px center').html('数据提交中...');
-                        }, 3000);
-                    }},
-            });
+            $('#register').dialog('widget').find('button').eq(1).button('disable');
+            $('#verify_register').dialog('open');
+
+
         },
         errorLabelContainer: 'ol.reg_error',
         wrapper: 'li',
@@ -167,6 +147,115 @@ $(function () {
 
 
 
+    $('#verify_register').dialog({
+        autoOpen : false,
+        width : 290 ,
+        height : 300 ,
+        modal : true ,
+        title : '请输入验证码' ,
+        resizable : false ,
+        closeText : '关闭' ,
+        buttons : [{
+            text : '完成' ,
+            click : function (e) {
+                $(this).submit();
+            },
+        }],
+        close : function () {
+            $('#register').dialog('widget').find('button').eq(1).button('enable');
+        }
+
+    }).validate({
+        submitHandler: function (form) {
+            $('#register').ajaxSubmit({
+                    url: model,
+                    type: 'post',
+                    beforeSubmit: function () {
+                        $('#loading').dialog('open');
+                        $('#register').dialog('widget').find('button').eq(1).button('disable');
+                        $('#verify_register').dialog('widget').find('button').eq(1).button('disable');
+                    },
+                    success : function (responseText, statusText) {
+                        if (responseText) {
+                            $('#register').dialog('widget').find('button')
+                                .eq(1).button('enable');
+                            $('#verify_register').dialog('widget').find('button')
+                                .eq(1).button('enable');
+                            $('#loading').css('background', 'url(' + ThinkPHP['IMG']
+                                + '/success.gif) no-repeat 20px center').html('数据新增成功...');
+                            setTimeout(function () {
+                                if(verifyimg.indexOf('?')>0){
+                                    $(".verifyimg").attr("src",
+                                        verifyimg+'&random='+Math.random());
+                                }else{
+                                    $(".verifyimg").attr("src",
+                                        verifyimg+'?random'+Math.random());
+                                }
+                                $('#loading').dialog('close');
+                                $('#register').dialog('close');
+                                $('#verify_register').dialog('close');
+                                $('#register').resetForm();
+                                $('#verify_register').resetForm();
+                                $('span.star').html('*').removeClass('succ').css('color','red');
+                                $('#loading').css('background', 'url(' + ThinkPHP['IMG']
+                                    + '/loading.gif) no-repeat 20px center').html('数据提交中...');
+                            }, 3000);
+                        }},
+                });
+
+        },
+        errorLabelContainer: 'ol.ver_error',
+        wrapper: 'li',
+        showErrors: function (errorMap, errorList) {
+            var errors = this.numberOfInvalids();
+            if (errors > 0) {
+                $('#verify_register').dialog('option', 'height', errors * 20 + 300);
+            } else {
+                $('#verify_register').dialog('option', 'height', 300);
+            }
+            this.defaultShowErrors();
+        },
+        highlight: function (element, errorClass) {
+            $(element).css('border', '1px solid red');
+            $(element).parent().find('span').html('*').css('color', 'red').removeClass('succ');
+        },
+        unhighlight: function (element, errorClass) {
+            $(element).css('border', '1px solid #ccc');
+            $(element).parent().find('span').html('&nbsp;').addClass('succ');
+        },
+
+        rules:{
+          verify :{
+              required:true,
+              remote: {
+                  url: ThinkPHP['MODULE'] + '/User/checkVerify',
+                  type: 'POST',
+
+              },
+
+          }
+        },
+        messages : {
+              verify:{
+                  required:'请输入验证码',
+                  remote:'验证码不正确',
+              }
+        },
+    });
+
+
+    var verifyimg = $(".verifyimg").attr("src");
+    $(".changeimg").click(function(){
+        if(verifyimg.indexOf('?')>0){
+            $(".verifyimg").attr("src",
+                verifyimg+'&random='+Math.random());
+        }else{
+            $(".verifyimg").attr("src",
+                verifyimg+'?random'+Math.random());
+        }
+    });
+
+
 
     $('#email').autocomplete({
         delay : 0,
@@ -206,6 +295,24 @@ $(function () {
             response(result);
         },
     });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

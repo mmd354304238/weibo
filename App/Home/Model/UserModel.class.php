@@ -16,6 +16,7 @@ class UserModel extends Model
       protected $_auto = array(
           array('password','sha1',self::MODEL_BOTH,'function'),
           array('create','time',self::MODEL_INSERT,'function'),
+
       );
 
 
@@ -26,6 +27,7 @@ class UserModel extends Model
           array('email','email',-4,self::EXISTS_VALIDATE),
           array('username','',-5,self::EXISTS_VALIDATE,'unique'),
           array('email','',-6,self::EXISTS_VALIDATE,'unique'),
+          array('verify','check_verify',-7,self::EXISTS_VALIDATE,'function'),
       );
 
 
@@ -52,6 +54,9 @@ class UserModel extends Model
                 break;
             case 'email' :
                 $data['email'] = $field;
+                break;
+            case 'verify' :
+                $data['verify'] = $field;
                 break;
             default:
                 return 0;

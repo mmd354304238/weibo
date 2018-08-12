@@ -145,7 +145,7 @@ body {
 	background: url(../img/ui_header_bg.png) !important;
 }
 
-#register ol {
+#register ol,#verify_register ol {
 	margin:0;
 	padding:0 0 0 20px;
 	font-size:14px;
@@ -154,7 +154,7 @@ body {
 #register ol li {
 	height:20px;
 }
-#register .succ {
+#register .succ,#verify_register .succ {
 	display:inline-block;
 	width:28px;
 	background:url(../img/success.gif) no-repeat bottom;
@@ -194,4 +194,34 @@ body {
 .ui-menu-item a.ui-state-focus {
 	color:#036 !important;
 	background:url(../img/menu_bg.png) !important;
+}
+
+
+#verify_register {
+    padding:0 0 0 20px;
+    position:relative;
+    top:15px;
+}
+#verify_register input[type="text"]{
+    width:85px;
+    height:25px;
+    padding:5px;
+    border-radius:3px;
+    border:1px solid #ccc;
+    background:#fff;
+    color:#333;
+}
+#verify_register a {
+    color:#036;
+    text-decoration:none;
+    font-size:16px;
+}
+#verify_register a:hover {
+    text-decoraiton:none;
+}
+#verify_register span.star {
+    color:red;
+}
+#verify_register .verifyimg {
+    cursor:pointer;
 }

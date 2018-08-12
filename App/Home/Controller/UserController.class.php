@@ -11,7 +11,7 @@ namespace Home\Controller;
 
 use Home\Model\UserModel;
 use Think\Controller;
-use Think\Db;
+
 
 class UserController extends Controller
 {
@@ -47,14 +47,25 @@ class UserController extends Controller
         }
     }
 
+    public function checkVerify()
+    {
+        if (IS_AJAX) {
 
 
+                $user = D('User');
+                $uid = $user->checkField(I('post.verify'), 'verify');
+                echo $uid > 0 ? 'true' : 'false';
+
+        }
 
 
-
-
-
+    }
 
 
 
 }
+
+
+
+
+

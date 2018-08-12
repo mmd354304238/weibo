@@ -69,7 +69,17 @@
 
 <div id="loading">数据提交中...</div>
 
+<form id="verify_register">
+    <ol class="ver_error"></ol>
+    <p>
+        <label for="verify">验证码：</label>
+        <input type="text" name="verify" id="verify">
+        <span class="star">*</span>
+        <a href="javascript:void(0)" class="changeimg">换一换</a>
 
+    </p>
+    <p><img src="{:U('verify')}" alt="" class="verifyimg changeimg"></p>
+</form>
 
 </body>
 </html>
