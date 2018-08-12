@@ -57,6 +57,7 @@ $(function () {
                 required: true,
                 minlength: 2,
                 maxlength: 20,
+                isAt:true,
                 remote: {
                     url: ThinkPHP['MODULE'] + '/User/checkUserName',
                     type: 'POST',
@@ -111,6 +112,7 @@ $(function () {
                 required: '帐号不得为空！',
                 minlength: $.format('帐号不得小于{0}位！'),
                 maxlength: $.format('帐号不得大于{0}位！'),
+                isAt :'账号不得包含@符号',
                 remote: '帐号被占用！',
             },
             password: {
@@ -256,6 +258,12 @@ $(function () {
     });
 
 
+    $.validator.addMethod('isAt',function (value,element) {
+         var text = /^[^@]+$/i;
+         return this.optional(element) || (text.test(value));
+    },'存在@符号');
+
+
 
     $('#email').autocomplete({
         delay : 0,
@@ -298,6 +306,14 @@ $(function () {
 
 
 
+    $('#login').validate({
+        submitHandler : function (form) {
+             $(form).ajaxSubmit({
+                 url : ThinkPHP['MODULE']+'/User/login',
+                 type : 'POST',
+             });
+        }
+    });
 
 
 

@@ -21,7 +21,7 @@ class UserModel extends Model
 
 
       protected $_validate = array(
-          array('username','2,20',-1,self::EXISTS_VALIDATE,'length'),
+          array('username','/^[^@]{2,20}$/i',-1,self::EXISTS_VALIDATE),
           array('password','6,30',-2,self::EXISTS_VALIDATE,'length'),
           array('repassword','password',-3,self::EXISTS_VALIDATE,'confirm'),
           array('email','email',-4,self::EXISTS_VALIDATE),
