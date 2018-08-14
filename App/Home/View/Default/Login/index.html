@@ -24,7 +24,7 @@
 
 <div id="main">
     <form action="" id="login">
-        <input type="text" name="user" placeholder="用户名">
+        <input type="text" name="username" placeholder="用户名">
         <input type="password" name="password" placeholder="密码">
         <input type="submit" name="submit" value="登录">
         <div class="bottom">

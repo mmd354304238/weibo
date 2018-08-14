@@ -61,6 +61,16 @@ class UserController extends Controller
 
     }
 
+    public function login(){
+        if (IS_AJAX){
+            $User = D('User');
+            $uid = $User->login(I('post.username'),I('post.password'));
+            echo $uid;
+        }else{
+            $this->error('非法访问！');
+        }
+    }
+
 
 
 }

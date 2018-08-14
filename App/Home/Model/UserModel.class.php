@@ -28,7 +28,32 @@ class UserModel extends Model
           array('username','',-5,self::EXISTS_VALIDATE,'unique'),
           array('email','',-6,self::EXISTS_VALIDATE,'unique'),
           array('verify','check_verify',-7,self::EXISTS_VALIDATE,'function'),
+          array('login_username','2,50',-8,self::EXISTS_VALIDATE,'length'),
+          array('login_username','email','noemail',self::EXISTS_VALIDATE),
       );
+
+      public function login($username,$password){
+          $data = array(
+              'login_username'=>$username,
+              'password'=>$password,
+          );
+
+          $map = array();
+          if ($this->create($data)){
+              $map['email']=$username;
+          }else{
+              if ($this->getError()=='noemail'){
+                  $map['username']=$username;
+              }
+          }
+
+          $user = $this->field('id,password')->where($map)->find();
+          if ($user['password']==sha1($password)){
+              return $user['id'];
+          }else{
+              return -9;
+          }
+      }
 
 
       public function register($username,$password,$email,$repassword){

@@ -27,4 +27,5 @@ class LoginController extends Controller
         $Verify->entry(1);
     }
 
+
 }

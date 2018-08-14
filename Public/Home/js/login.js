@@ -263,6 +263,15 @@ $(function () {
          return this.optional(element) || (text.test(value));
     },'存在@符号');
 
+    $('#login').validate({
+        submitHandler : function (form) {
+            $(form).ajaxSubmit({
+                 url : ThinkPHP['MODULE']+'/User/login',
+                type : 'POST',
+            });
+        }
+    });
+
 
 
     $('#email').autocomplete({
