@@ -17,7 +17,7 @@ class UserController extends Controller
 {
 
     public function register(){
-       sleep(3);
+
         if (IS_AJAX){
             $User = new UserModel();
             $uid = $User->register(I('post.username'),I('post.password'),I('post.email'),I('post.repassword'));
@@ -62,6 +62,7 @@ class UserController extends Controller
     }
 
     public function login(){
+
         if (IS_AJAX){
             $User = D('User');
             $uid = $User->login(I('post.username'),I('post.password'));

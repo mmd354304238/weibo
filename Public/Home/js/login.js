@@ -6,6 +6,63 @@ $(function () {
 
     $('#login input[type="submit"]').button();
 
+    $('#login').validate({
+        submitHandler: function (form) {
+            $(form).ajaxSubmit({
+                url: ThinkPHP['MODULE'] + '/User/login',
+                type: 'POST',
+                beforeSubmit: function () {
+                    $('#loading').html('登录中...').dialog('open')
+                },
+                success: function (responseText) {
+                    if (responseText == -9) {
+                        $('#loading').dialog({
+                            width: 190,
+                        });
+                        $('#loading').css('background', 'url(' + ThinkPHP['IMG']
+                            + '/error.png) no-repeat 20px center').css('width', '38px').html('用户名或密码错误！');
+
+                        setTimeout(function () {
+                                $('#loading').dialog('close');
+                                $('#loading').css('background', 'url(' + ThinkPHP['IMG']
+                                    + '/loading.gif) no-repeat 20px center');
+                            }
+                            , 3000);
+
+
+                    } else {
+                        $('#loading').dialog('option', 'width', '210').css('background', 'url(' + ThinkPHP['IMG']
+                            + '/success.gif) no-repeat 20px center').css('width', '38px').html('登录成功，正在跳转...');
+                        setTimeout(function () {
+                            location.href = 'http://www.baidu.com';
+                        },3000);
+                    }
+                    ;
+                }
+            });
+        },
+        rules: {
+            username: {
+                required: true,
+            },
+            password: {
+                required: true,
+            },
+
+        },
+        messages: {
+            username: {
+                required: '帐号不得为空！',
+            },
+            password: {
+                required: '密码不得为空！',
+
+            },
+
+        },
+    });
+
+
     var model = ThinkPHP['MODULE'] + '/User/register';
 
     $('#register').dialog({
@@ -57,7 +114,7 @@ $(function () {
                 required: true,
                 minlength: 2,
                 maxlength: 20,
-                isAt:true,
+                isAt: true,
                 remote: {
                     url: ThinkPHP['MODULE'] + '/User/checkUserName',
                     type: 'POST',
@@ -112,7 +169,7 @@ $(function () {
                 required: '帐号不得为空！',
                 minlength: $.format('帐号不得小于{0}位！'),
                 maxlength: $.format('帐号不得大于{0}位！'),
-                isAt :'账号不得包含@符号',
+                isAt: '账号不得包含@符号',
                 remote: '帐号被占用！',
             },
             password: {
@@ -148,62 +205,62 @@ $(function () {
     });
 
 
-
     $('#verify_register').dialog({
-        autoOpen : false,
-        width : 290 ,
-        height : 300 ,
-        modal : true ,
-        title : '请输入验证码' ,
-        resizable : false ,
-        closeText : '关闭' ,
-        buttons : [{
-            text : '完成' ,
-            click : function (e) {
+        autoOpen: false,
+        width: 290,
+        height: 300,
+        modal: true,
+        title: '请输入验证码',
+        resizable: false,
+        closeText: '关闭',
+        buttons: [{
+            text: '完成',
+            click: function (e) {
                 $(this).submit();
             },
         }],
-        close : function () {
+        close: function () {
             $('#register').dialog('widget').find('button').eq(1).button('enable');
         }
 
     }).validate({
         submitHandler: function (form) {
             $('#register').ajaxSubmit({
-                    url: model,
-                    type: 'post',
-                    beforeSubmit: function () {
-                        $('#loading').dialog('open');
-                        $('#register').dialog('widget').find('button').eq(1).button('disable');
-                        $('#verify_register').dialog('widget').find('button').eq(1).button('disable');
-                    },
-                    success : function (responseText, statusText) {
-                        if (responseText) {
-                            $('#register').dialog('widget').find('button')
-                                .eq(1).button('enable');
-                            $('#verify_register').dialog('widget').find('button')
-                                .eq(1).button('enable');
+                url: model,
+                type: 'post',
+                beforeSubmit: function () {
+                    $('#loading').dialog('open');
+                    $('#register').dialog('widget').find('button').eq(1).button('disable');
+                    $('#verify_register').dialog('widget').find('button').eq(1).button('disable');
+                },
+                success: function (responseText, statusText) {
+                    if (responseText) {
+                        $('#register').dialog('widget').find('button')
+                            .eq(1).button('enable');
+                        $('#verify_register').dialog('widget').find('button')
+                            .eq(1).button('enable');
+                        $('#loading').css('background', 'url(' + ThinkPHP['IMG']
+                            + '/success.gif) no-repeat 20px center').html('数据新增成功...');
+                        setTimeout(function () {
+                            if (verifyimg.indexOf('?') > 0) {
+                                $(".verifyimg").attr("src",
+                                    verifyimg + '&random=' + Math.random());
+                            } else {
+                                $(".verifyimg").attr("src",
+                                    verifyimg + '?random' + Math.random());
+                            }
+                            $('#loading').dialog('close');
+                            $('#register').dialog('close');
+                            $('#verify_register').dialog('close');
+                            $('#register').resetForm();
+                            $('#verify_register').resetForm();
+                            $('span.star').html('*').removeClass('succ').css('color', 'red');
                             $('#loading').css('background', 'url(' + ThinkPHP['IMG']
-                                + '/success.gif) no-repeat 20px center').html('数据新增成功...');
-                            setTimeout(function () {
-                                if(verifyimg.indexOf('?')>0){
-                                    $(".verifyimg").attr("src",
-                                        verifyimg+'&random='+Math.random());
-                                }else{
-                                    $(".verifyimg").attr("src",
-                                        verifyimg+'?random'+Math.random());
-                                }
-                                $('#loading').dialog('close');
-                                $('#register').dialog('close');
-                                $('#verify_register').dialog('close');
-                                $('#register').resetForm();
-                                $('#verify_register').resetForm();
-                                $('span.star').html('*').removeClass('succ').css('color','red');
-                                $('#loading').css('background', 'url(' + ThinkPHP['IMG']
-                                    + '/loading.gif) no-repeat 20px center').html('数据提交中...');
-                            }, 3000);
-                        }},
-                });
+                                + '/loading.gif) no-repeat 20px center').html('数据提交中...');
+                        }, 3000);
+                    }
+                },
+            });
 
         },
         errorLabelContainer: 'ol.ver_error',
@@ -226,64 +283,63 @@ $(function () {
             $(element).parent().find('span').html('&nbsp;').addClass('succ');
         },
 
-        rules:{
-          verify :{
-              required:true,
-              remote: {
-                  url: ThinkPHP['MODULE'] + '/User/checkVerify',
-                  type: 'POST',
+        rules: {
+            verify: {
+                required: true,
+                remote: {
+                    url: ThinkPHP['MODULE'] + '/User/checkVerify',
+                    type: 'POST',
 
-              },
+                },
 
-          }
+            }
         },
-        messages : {
-              verify:{
-                  required:'请输入验证码',
-                  remote:'验证码不正确',
-              }
+        messages: {
+            verify: {
+                required: '请输入验证码',
+                remote: '验证码不正确',
+            }
         },
     });
 
 
     var verifyimg = $(".verifyimg").attr("src");
-    $(".changeimg").click(function(){
-        if(verifyimg.indexOf('?')>0){
+    $(".changeimg").click(function () {
+        if (verifyimg.indexOf('?') > 0) {
             $(".verifyimg").attr("src",
-                verifyimg+'&random='+Math.random());
-        }else{
+                verifyimg + '&random=' + Math.random());
+        } else {
             $(".verifyimg").attr("src",
-                verifyimg+'?random'+Math.random());
+                verifyimg + '?random' + Math.random());
         }
     });
 
 
-    $.validator.addMethod('isAt',function (value,element) {
-         var text = /^[^@]+$/i;
-         return this.optional(element) || (text.test(value));
-    },'存在@符号');
+    $.validator.addMethod('isAt', function (value, element) {
+        var text = /^[^@]+$/i;
+        return this.optional(element) || (text.test(value));
+    }, '存在@符号');
 
     $('#login').validate({
-        submitHandler : function (form) {
+        submitHandler: function (form) {
             $(form).ajaxSubmit({
-                 url : ThinkPHP['MODULE']+'/User/login',
-                type : 'POST',
+                url: ThinkPHP['MODULE'] + '/User/login',
+                type: 'POST',
             });
         }
     });
 
 
-
     $('#email').autocomplete({
-        delay : 0,
-        autoFocus : true,
-        source : function (request, response) {
+        delay: 0,
+        autoFocus: true,
+        source: function (request, response) {
 //获取用户输入的内容
 //alert(request.term);
 //绑定数据源的
 //response(['aa', 'aaaa', 'aaaaaa', 'bb']);
             var hosts = ['qq.com', '163.com',
-                    '263.com', 'sina.com.cn','gmail.com', 'hotmail.com'],term = request.term, //获取用户输入的内容
+                    '263.com', 'sina.com.cn', 'gmail.com', 'hotmail.com'], term = request.term, //获取用户输入的内容
                 name = term, //邮箱的用户名
                 host = '', //邮箱的域名
                 ix = term.indexOf('@'), //@的位置
@@ -312,41 +368,6 @@ $(function () {
             response(result);
         },
     });
-
-
-
-    $('#login').validate({
-        submitHandler : function (form) {
-             $(form).ajaxSubmit({
-                 url : ThinkPHP['MODULE']+'/User/login',
-                 type : 'POST',
-             });
-        }
-    });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 });
