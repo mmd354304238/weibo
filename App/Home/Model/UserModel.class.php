@@ -52,7 +52,7 @@ class UserModel extends Model
               $update = array(
                   'id'=>$user['id'],
                   'last_login'=>NOW_TIME,
-                  'last_ip'=>get_client_ip(1),
+                  'last_ip'=>get_client_ip(1 ),
               );
               $this->save($update);
               return $user['id'];
