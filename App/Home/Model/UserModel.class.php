@@ -49,6 +49,12 @@ class UserModel extends Model
 
           $user = $this->field('id,password')->where($map)->find();
           if ($user['password']==sha1($password)){
+              $update = array(
+                  'id'=>$user['id'],
+                  'last_login'=>NOW_TIME,
+                  'last_ip'=>get_client_ip(1),
+              );
+              $this->save($update);
               return $user['id'];
           }else{
               return -9;

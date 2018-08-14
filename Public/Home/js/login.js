@@ -8,38 +8,9 @@ $(function () {
 
     $('#login').validate({
         submitHandler: function (form) {
-            $(form).ajaxSubmit({
-                url: ThinkPHP['MODULE'] + '/User/login',
-                type: 'POST',
-                beforeSubmit: function () {
-                    $('#loading').html('登录中...').dialog('open')
-                },
-                success: function (responseText) {
-                    if (responseText == -9) {
-                        $('#loading').dialog({
-                            width: 190,
-                        });
-                        $('#loading').css('background', 'url(' + ThinkPHP['IMG']
-                            + '/error.png) no-repeat 20px center').css('width', '38px').html('用户名或密码错误！');
-
-                        setTimeout(function () {
-                                $('#loading').dialog('close');
-                                $('#loading').css('background', 'url(' + ThinkPHP['IMG']
-                                    + '/loading.gif) no-repeat 20px center');
-                            }
-                            , 3000);
-
-
-                    } else {
-                        $('#loading').dialog('option', 'width', '210').css('background', 'url(' + ThinkPHP['IMG']
-                            + '/success.gif) no-repeat 20px center').css('width', '38px').html('登录成功，正在跳转...');
-                        setTimeout(function () {
-                            location.href = 'http://www.baidu.com';
-                        },3000);
-                    }
-                    ;
-                }
-            });
+             //$('#login').find('button').eq(1).button('disable');
+            $('#verify_register').attr('form-click', 'login');
+            $('#verify_register').dialog('open');
         },
         rules: {
             username: {
@@ -84,6 +55,7 @@ $(function () {
     }).validate({
         submitHandler: function (form) {
             $('#register').dialog('widget').find('button').eq(1).button('disable');
+            $('#verify_register').attr('form-click', 'register');
             $('#verify_register').dialog('open');
 
 
@@ -220,47 +192,84 @@ $(function () {
             },
         }],
         close: function () {
-            $('#register').dialog('widget').find('button').eq(1).button('enable');
+            if ($('#verify_register').attr('form-click') == 'register') {
+                $('#register').dialog('widget').find('button').eq(1).button('enable');
+            }
         }
 
     }).validate({
         submitHandler: function (form) {
-            $('#register').ajaxSubmit({
-                url: model,
-                type: 'post',
-                beforeSubmit: function () {
-                    $('#loading').dialog('open');
-                    $('#register').dialog('widget').find('button').eq(1).button('disable');
-                    $('#verify_register').dialog('widget').find('button').eq(1).button('disable');
-                },
-                success: function (responseText, statusText) {
-                    if (responseText) {
-                        $('#register').dialog('widget').find('button')
-                            .eq(1).button('enable');
-                        $('#verify_register').dialog('widget').find('button')
-                            .eq(1).button('enable');
-                        $('#loading').css('background', 'url(' + ThinkPHP['IMG']
-                            + '/success.gif) no-repeat 20px center').html('数据新增成功...');
-                        setTimeout(function () {
-                            if (verifyimg.indexOf('?') > 0) {
-                                $(".verifyimg").attr("src",
-                                    verifyimg + '&random=' + Math.random());
-                            } else {
-                                $(".verifyimg").attr("src",
-                                    verifyimg + '?random' + Math.random());
-                            }
-                            $('#loading').dialog('close');
-                            $('#register').dialog('close');
-                            $('#verify_register').dialog('close');
-                            $('#register').resetForm();
-                            $('#verify_register').resetForm();
-                            $('span.star').html('*').removeClass('succ').css('color', 'red');
+            if ($('#verify_register').attr('form-click') == 'register') {
+                $('#register').ajaxSubmit({
+                    url: model,
+                    type: 'post',
+                    beforeSubmit: function () {
+                        $('#loading').dialog('open');
+                        $('#register').dialog('widget').find('button').eq(1).button('disable');
+                        $('#verify_register').dialog('widget').find('button').eq(1).button('disable');
+                    },
+                    success: function (responseText, statusText) {
+                        if (responseText) {
+                            $('#register').dialog('widget').find('button')
+                                .eq(1).button('enable');
+                            $('#verify_register').dialog('widget').find('button')
+                                .eq(1).button('enable');
                             $('#loading').css('background', 'url(' + ThinkPHP['IMG']
-                                + '/loading.gif) no-repeat 20px center').html('数据提交中...');
-                        }, 3000);
+                                + '/success.gif) no-repeat 20px center').html('数据新增成功...');
+                            setTimeout(function () {
+                                if (verifyimg.indexOf('?') > 0) {
+                                    $(".verifyimg").attr("src",
+                                        verifyimg + '&random=' + Math.random());
+                                } else {
+                                    $(".verifyimg").attr("src",
+                                        verifyimg + '?random' + Math.random());
+                                }
+                                $('#loading').dialog('close');
+                                $('#register').dialog('close');
+                                $('#verify_register').dialog('close');
+                                $('#register').resetForm();
+                                $('#verify_register').resetForm();
+                                $('span.star').html('*').removeClass('succ').css('color', 'red');
+                                $('#loading').css('background', 'url(' + ThinkPHP['IMG']
+                                    + '/loading.gif) no-repeat 20px center').html('数据提交中...');
+                            }, 3000);
+                        }
+                    },
+                });
+            }else if($('#verify_register').attr('form-click') == 'login'){
+                $('#login').ajaxSubmit({
+                    url: ThinkPHP['MODULE'] + '/User/login',
+                    type: 'POST',
+                    beforeSubmit: function () {
+                        $('#loading').html('登录中...').dialog('open')
+                    },
+                    success: function (responseText) {
+                        if (responseText == -9) {
+                            $('#loading').dialog({
+                                width: 190,
+                            });
+                            $('#loading').css('background', 'url(' + ThinkPHP['IMG']
+                                + '/error.png) no-repeat 20px center').css('width', '38px').html('用户名或密码错误！');
+
+                            setTimeout(function () {
+                                    $('#loading').dialog('close');
+                                    $('#loading').css('background', 'url(' + ThinkPHP['IMG']
+                                        + '/loading.gif) no-repeat 20px center');
+                                }
+                                , 3000);
+
+
+                        } else {
+                            $('#loading').dialog('option', 'width', '210').css('background', 'url(' + ThinkPHP['IMG']
+                                + '/success.gif) no-repeat 20px center').css('width', '38px').html('登录成功，正在跳转...');
+                            setTimeout(function () {
+                                location.href = 'http://www.baidu.com';
+                            }, 3000);
+                        }
+                        ;
                     }
-                },
-            });
+                });
+            }
 
         },
         errorLabelContainer: 'ol.ver_error',

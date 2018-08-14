@@ -12,4 +12,5 @@ return array(
     'DB_PWD'=>'',
     'DB_PREFIX'=>'weibo_',
     'DB_DSN'=>'mysql:host=localhost;dbname=weibo;charset=UTF8',
+
 );
