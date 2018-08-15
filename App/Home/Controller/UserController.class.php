@@ -19,7 +19,7 @@ class UserController extends Controller
     public function register(){
 
         if (IS_AJAX){
-            $User = new UserModel();
+            $User = new D('User');
             $uid = $User->register(I('post.username'),I('post.password'),I('post.email'),I('post.repassword'));
             echo $uid;
 
@@ -64,11 +64,13 @@ class UserController extends Controller
     public function login(){
 
         if (IS_AJAX){
+            sleep(3);
             $User = D('User');
             $uid = $User->login(I('post.username'),I('post.password'));
             echo $uid;
         }else{
             $this->error('非法访问！');
+
         }
     }
 

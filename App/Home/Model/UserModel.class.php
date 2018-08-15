@@ -47,13 +47,21 @@ class UserModel extends Model
               }
           }
 
-          $user = $this->field('id,password')->where($map)->find();
+          $user = $this->field('id,username,password,last_login')->where($map)->find();
           if ($user['password']==sha1($password)){
               $update = array(
                   'id'=>$user['id'],
                   'last_login'=>NOW_TIME,
-                  'last_ip'=>get_client_ip(1 ),
+                  'last_ip'=>get_client_ip(1),
               );
+              $auth = array(
+                  'id'=>$user['id'],
+                  'username'=>$user['username'],
+                  'last_login'=>$user['last_login'],
+              );
+
+              session('user_auth',$auth);
+
               $this->save($update);
               return $user['id'];
           }else{

@@ -1,10 +1,10 @@
 <?php
 namespace Home\Controller;
-use Think\Controller;
-class IndexController extends Controller {
-    public function index(){
-       $user =  M('user');
-       var_dump($user->select());
 
+class IndexController extends HomeController {
+    public function index(){
+        if ($this->login()) {
+            $this->display();
+        }
     }
 }

@@ -253,6 +253,7 @@ $(function () {
 
                             setTimeout(function () {
                                     $('#loading').dialog('close');
+                                    $('#verify_register').dialog('close');
                                     $('#loading').css('background', 'url(' + ThinkPHP['IMG']
                                         + '/loading.gif) no-repeat 20px center');
                                 }
@@ -260,10 +261,11 @@ $(function () {
 
 
                         } else {
+
                             $('#loading').dialog('option', 'width', '210').css('background', 'url(' + ThinkPHP['IMG']
                                 + '/success.gif) no-repeat 20px center').css('width', '38px').html('登录成功，正在跳转...');
                             setTimeout(function () {
-                                location.href = 'http://www.baidu.com';
+                                location.href = ThinkPHP['INDEX'];
                             }, 3000);
                         }
                         ;
