@@ -32,7 +32,7 @@ class UserModel extends Model
           array('login_username','email','noemail',self::EXISTS_VALIDATE),
       );
 
-      public function login($username,$password){
+      public function login($username,$password,$auto){
           $data = array(
               'login_username'=>$username,
               'password'=>$password,
@@ -54,15 +54,24 @@ class UserModel extends Model
                   'last_login'=>NOW_TIME,
                   'last_ip'=>get_client_ip(1),
               );
+
+              $this->save($update);
+
               $auth = array(
                   'id'=>$user['id'],
                   'username'=>$user['username'],
-                  'last_login'=>$user['last_login'],
+                  'last_login'=>NOW_TIME,
               );
-
               session('user_auth',$auth);
 
-              $this->save($update);
+
+              if ($auto=='on'){
+                  cookie('auto',encryption($user['username'].'|'.get_client_ip()),3600*24*30);
+              }
+
+
+
+
               return $user['id'];
           }else{
               return -9;

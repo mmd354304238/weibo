@@ -11,6 +11,12 @@ function  check_verify($code,$id=1){
     return $Verify->check($code,$id);
 }
 
-function test(){
-    echo '12321321321';
+function encryption($username,$type=0){
+    $key=sha1(C('COOKIE_KEY'));
+
+    if (!$type){
+        return base64_encode($username ^ $key);
+    }
+    $username = base64_decode($username);
+    return $username^$key;
 }

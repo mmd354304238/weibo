@@ -76,6 +76,20 @@ body {
 	position: relative;
 }
 
+#login #auto {
+	position: relative;
+	top: 2px;
+
+}
+
+#login span.password label.auto {
+	font-size:14px;
+	color:#eee;
+	text-shadow: 1px 1px 1px #333;
+	position:absolute;
+	top:60px;
+	left:-100px;
+}
 #login span label.error{
 	color: #f60;
 	position: absolute;

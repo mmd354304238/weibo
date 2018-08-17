@@ -8,4 +8,7 @@ return array(
         '__JS__'=>__ROOT__.'/Public/'.MODULE_NAME.'/js',
         '__IMG__'=>__ROOT__.'/Public/'.MODULE_NAME.'/img',
     ),
+
+    'COOKIE_KEY'=>'liqing',
+
 );
