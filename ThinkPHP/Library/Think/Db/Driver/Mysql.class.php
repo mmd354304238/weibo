@@ -61,6 +61,10 @@ class Mysql extends Db{
             if($dbVersion >'5.0.1'){
                 mysql_query("SET sql_mode=''",$this->linkID[$linkNum]);
             }
+            // 标记连接成功
+            $this->connected    =   true;
+            // 注销数据库连接配置信息
+            if(1 != C('DB_DEPLOY_TYPE')) unset($this->config);
         }
         return $this->linkID[$linkNum];
     }
@@ -81,6 +85,10 @@ class Mysql extends Db{
      * @return mixed
      */
     public function query($str) {
+        if(0===stripos($str, 'call')){ // 存储过程查询支持
+            $this->close();
+            $this->connected    =   false;
+        }
         $this->initConnect(false);
         if ( !$this->_linkID ) return false;
         $this->queryStr = $str;
@@ -95,10 +103,6 @@ class Mysql extends Db{
             $this->error();
             return false;
         } else {
-            if(0===stripos($str, 'call')){ // 存储过程查询支持
-                $this->close();
-                $this->linkID  = array();
-            }
             $this->numRows = mysql_num_rows($this->queryID);
             return $this->getAll();
         }
@@ -268,7 +272,7 @@ class Mysql extends Db{
      * @return false | integer
      */
     public function insertAll($datas,$options=array(),$replace=false) {
-        if(!is_array(reset($datas))) return false;
+        if(!is_array($datas[0])) return false;
         $fields = array_keys($datas[0]);
         array_walk($fields, array($this, 'parseKey'));
         $values  =  array();

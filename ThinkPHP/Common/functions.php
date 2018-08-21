@@ -306,6 +306,7 @@ function I($name,$default='',$filter=null,$datas=null) {
     }
     if(''==$name) { // 获取全部变量
         $data       =   $input;
+        array_walk_recursive($data,'filter_exp');
         $filters    =   isset($filter)?$filter:C('DEFAULT_FILTER');
         if($filters) {
             if(is_string($filters)){
@@ -317,6 +318,7 @@ function I($name,$default='',$filter=null,$datas=null) {
         }
     }elseif(isset($input[$name])) { // 取值操作
         $data       =   $input[$name];
+        is_array($data) && array_walk_recursive($data,'filter_exp');
         $filters    =   isset($filter)?$filter:C('DEFAULT_FILTER');
         if($filters) {
             if(is_string($filters)){
@@ -339,7 +341,6 @@ function I($name,$default='',$filter=null,$datas=null) {
     }else{ // 变量默认值
         $data       =    isset($default)?$default:NULL;
     }
-    is_array($data) && array_walk_recursive($data,'think_filter');
     return $data;
 }
 
@@ -1443,16 +1444,14 @@ function send_http_status($code) {
     }
 }
 
+// 过滤表单中的表达式
+function filter_exp(&$value){
+    if (in_array(strtolower($value),array('exp','or'))){
+        $value .= ' ';
+    }
+}
+
 // 不区分大小写的in_array实现
 function in_array_case($value,$array){
     return in_array(strtolower($value),array_map('strtolower',$array));
-}
-
-function think_filter(&$value){
-    // TODO 其他安全过滤
-
-    // 过滤查询特殊字符
-    if(preg_match('/^(EXP|NEQ|GT|EGT|LT|ELT|OR|LIKE|NOTLIKE|NOTBETWEEN|NOT BETWEEN|BETWEEN|NOTIN|NOT IN|IN)$/i',$value)){
-        $value .= ' ';
-    }
 }
