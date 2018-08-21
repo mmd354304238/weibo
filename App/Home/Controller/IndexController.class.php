@@ -8,7 +8,7 @@ class IndexController extends HomeController
     {
 
         if ($this->login()) {
-         $this->display();
+         $this->display();       
         }
 
     }
