@@ -1,11 +1,10 @@
 @CHARSET "UTF-8";
-body,h1,h2,h3,h4,h5,h6,ul,ol,p,form,dl,dt,dd {
+body,h1,h2,h3,h4,h5,h6,ul,ol,p,form {
 	margin:0;
 	padding:0;
 }
 body {
 	background:url(../img/weibo_bg.jpg);
-	font-family:Arial, Helvetica, sans-serif;
 }
 ul,ol {
 	list-style:none;
@@ -33,6 +32,12 @@ ul,ol {
 #header .nav {
 	float:left;
 	margin:0 0 0 30px;
+}
+#header .person {
+	float:right;
+}
+#header .person a {
+	font-size:13px;
 }
 #header .search {
 	float:right;
@@ -75,41 +80,6 @@ ul,ol {
 #header ul li a.selected {
 	background:#333;
 }
-#header .person {
-	float:right;
-	color:#fff;
-}
-#header .person a {
-	font-size:13px;
-}
-#header .app {
-	padding:0 12px;
-	position:relative;
-	cursor:pointer;
-	font-size:13px;
-}
-#header dl.list {
-	display:none;
-	width:100px;
-	background:#fff;
-	border:1px solid #666;
-	border-top:none;
-	position:absolute;
-	top:42px;
-	left:-51px;
-}
-#header dl.list a {
-	font-size:13px;
-	height:30px;
-	line-height:30px;
-	color:#444;
-}
-#header dl.list a:hover {
-	background:#eee;
-}
-#header dl.list a.line {
-	border-top:1px solid #eee;
-}
 #main {
 	width:960px;
 	min-height:800px;
@@ -123,7 +93,6 @@ ul,ol {
 	line-height:40px;
 	margin:0 auto;
 	font-size:13px;
-	color:#333;
 }
 #footer .footer_left {
 	float:left;
