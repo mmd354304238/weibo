@@ -19,7 +19,7 @@ class UserController extends Controller
     public function register(){
 
         if (IS_AJAX){
-            $User = new D('User');
+            $User =  D('User');
             $uid = $User->register(I('post.username'),I('post.password'),I('post.email'),I('post.repassword'));
             echo $uid;
 
